@@ -1,0 +1,8 @@
+{
+  "name": "litreel",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:frontend": "node --test frontend/tests/download_tracker.test.js"
+  }
+}

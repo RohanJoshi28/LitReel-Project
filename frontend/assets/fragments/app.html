@@ -1,0 +1,282 @@
+<div class="app-shell hidden">
+  <aside class="sidebar">
+    <button class="brand brand-link" type="button" data-tab-target="dashboard" aria-label="Go to Dashboard">
+      <span class="brand-icon material-symbols-rounded" aria-hidden="true">auto_awesome</span>
+      <div>
+        <h1>LitReel</h1>
+        <p>Turn books into reels</p>
+      </div>
+    </button>
+    <nav class="sidebar-tabs" aria-label="Main navigation">
+      <div class="sidebar-tab active" role="button" tabindex="0" data-tab-target="dashboard" aria-label="Go to Dashboard">
+        <span class="icon material-symbols-rounded" aria-hidden="true">space_dashboard</span>
+        <span>Dashboard</span>
+      </div>
+      <div class="sidebar-tab" role="button" tabindex="0" data-tab-target="books" aria-label="Go to Books">
+        <span class="icon material-symbols-rounded" aria-hidden="true">menu_book</span>
+        <span>Books</span>
+      </div>
+      <div class="sidebar-tab" role="button" tabindex="0" data-tab-target="slides" aria-label="Go to Slides">
+        <span class="icon material-symbols-rounded" aria-hidden="true">slideshow</span>
+        <span>Slides</span>
+      </div>
+      <div class="sidebar-tab" role="button" tabindex="0" data-tab-target="video" aria-label="Go to Video">
+        <span class="icon material-symbols-rounded" aria-hidden="true">movie</span>
+        <span>Video</span>
+      </div>
+      <div class="sidebar-tab" role="button" tabindex="0" data-tab-target="account" aria-label="Go to Account">
+        <span class="icon material-symbols-rounded" aria-hidden="true">account_circle</span>
+        <span>Account</span>
+      </div>
+    </nav>
+    <div class="sidebar-profile">
+      <button class="profile-toggle" id="profile-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="material-symbols-rounded" aria-hidden="true">person</span>
+        <span id="session-email" class="profile-email">—</span>
+      </button>
+      <div class="profile-card" id="profile-card" aria-hidden="true">
+        <button id="profile-settings" type="button" class="profile-card-btn">
+          <span class="material-symbols-rounded" aria-hidden="true">account_circle</span>
+          <span>Profile</span>
+        </button>
+        <button id="logout-btn" type="button" class="profile-card-btn danger">
+          <span class="material-symbols-rounded" aria-hidden="true">logout</span>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="workspace">
+    <header class="workspace-header">
+      <div class="workspace-title default-title">
+        <h2 id="workspace-title">Studio Dashboard</h2>
+        <p id="workspace-subtitle">Create, edit, and download viral-ready book carousels.</p>
+      </div>
+      <div id="slides-header" class="slides-header hidden">
+        <label class="field sidebar-field large-select">
+          <select id="project-filter" class="slides-select">
+            <option value="">Select a book</option>
+          </select>
+        </label>
+        <p class="slides-hint muted">  Click to change book</p>
+        <!-- <p class="slides-subtitle">Edit concepts, slides, and narration for a selected book.</p> -->
+      </div>
+    </header>
+
+    <section class="tab-panel active" data-tab-panel="dashboard">
+      <div class="panel stats-grid">
+        <div class="stat-card">
+          <p class="label">Books Uploaded</p>
+          <p class="value" id="book-count">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="label">Total Slides</p>
+          <p class="value" id="slide-count">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="label">Pipeline</p>
+          <p class="muted">Upload → Concept Lab → Slides → Download</p>
+        </div>
+      </div>
+
+      <section class="panel upload-panel">
+        <div class="upload-card">
+          <div class="upload-hero">
+            <div class="upload-title-row">
+              <span class="upload-pill">Step 1</span>
+              <h3 class="upload-heading">Upload a Book File</h3>
+            </div>
+            <div class="upload-badge">
+              <span class="dot"></span>
+              Secure upload
+            </div>
+          </div>
+          <p class="upload-helper muted">Upload a PDF, DOCX, or EPUB and we’ll generate concepts & slides automatically.</p>
+
+          <form id="upload-form" class="upload-grid">
+            <label class="field">
+              <span>Project Title (optional)</span>
+              <input type="text" name="title" placeholder="Add a working title">
+            </label>
+
+            <label class="field file-field" id="upload-file-field">
+              <input type="file" name="document" accept=".pdf,.docx,.epub,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/epub+zip" required>
+              <div class="file-prompt">
+                <svg class="upload-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M12 16a1 1 0 0 1-1-1V9.41L9.12 11.3a1 1 0 1 1-1.41-1.42l3.6-3.59a1 1 0 0 1 1.42 0l3.59 3.59a1 1 0 1 1-1.41 1.42L13 9.41V15a1 1 0 0 1-1 1Zm-6 2a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2Z" />
+                </svg>
+                <strong>Drag a PDF, DOCX, or EPUB here or click to browse</strong>
+                <small>PDF · DOCX · EPUB · Up to 50 MB</small>
+              </div>
+            </label>
+            <p id="upload-file-meta" class="file-meta muted">No document selected yet.</p>
+            <div class="upload-actions">
+              <button type="submit" class="primary-btn generate-btn" id="generate-slides-btn" disabled aria-disabled="true" title="Upload a supported document to continue">
+                <span class="generate-btn-label">Generate Slides</span>
+                <span class="generate-spinner" aria-hidden="true"></span>
+              </button>
+              <div id="upload-status" class="status"></div>
+            </div>
+          </form>
+          <div class="upload-loading-overlay" id="upload-loading-overlay" aria-hidden="true">
+            <div class="upload-loading-content">
+              <div class="upload-loading-spinner" role="status" aria-live="polite"></div>
+              <p>Turning your book into slides…</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel tab-panel" data-tab-panel="books">
+      <div id="books-list" class="projects-feed"></div>
+    </section>
+
+    <section class="tab-panel" data-tab-panel="slides">
+      <section class="panel concept-lab-panel" id="concept-lab-panel">
+        <div class="concept-lab-header">
+          <div>
+            <h3>Concept Lab</h3>
+            <p class="muted">Remix your slideshow with fresh hooks, tones, or platforms in mind.</p>
+          </div>
+          <div class="concept-lab-hint" id="rag-project-hint">Pick a book to start shaping a new idea.</div>
+        </div>
+        <div class="concept-lab-body">
+          <div class="concept-lab-card">
+            <div class="concept-lab-card-title">Source Material</div>
+            <label class="field">
+              <span>Concept to mirror</span>
+              <select id="rag-concept-select" disabled>
+                <option value="__none__">No scene – use my direction only</option>
+                <option value="__random__">Select random slice of book</option>
+              </select>
+            </label>
+            <p class="helper-text">Stay with your favorite concept or start clean. We’ll always keep the new direction grounded in the book.</p>
+          </div>
+          <div class="concept-lab-card">
+            <div class="concept-lab-card-title">Your Direction</div>
+            <label class="field stacked">
+              <span>Describe the vibe, angle, or outcome</span>
+              <textarea id="rag-context-input" rows="4" maxlength="280" placeholder="e.g. “Make this feel like a tight TED-style carousel aimed at first-time founders.”"></textarea>
+            </label>
+            <div class="lab-text-meta">
+              <span class="muted" id="rag-char-count">0 / 280</span>
+            </div>
+          </div>
+          <div class="concept-lab-card concept-lab-action-card">
+            <div class="concept-lab-card-title">Generate Slides</div>
+            <p class="helper-text">We’ll scan your book, pull the most relevant beats, and draft a new stack.</p>
+            <button type="button" id="rag-generate-btn" class="primary-btn generate-btn" disabled>
+              <span class="rag-btn-label">Generate Concept</span>
+              <span class="generate-spinner" aria-hidden="true"></span>
+            </button>
+            <div id="rag-status" class="status"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="projects-panel">
+        <div class="panel-header">
+          <h3>Your Slideshows</h3>
+        </div>
+        <div id="projects-container" class="projects-feed"></div>
+      </section>
+    </section>
+
+    <section class="panel tab-panel" data-tab-panel="video">
+      <h3>Video</h3>
+      <p class="muted">Rendering controls coming soon.</p>
+    </section>
+
+    <section class="panel tab-panel" data-tab-panel="account">
+      <h3>Account</h3>
+      <p class="muted">Profile and billing controls will live here.</p>
+    </section>
+  </div>
+</div>
+
+<div id="slide-editor-modal" class="modal hidden">
+  <div class="modal-content editor">
+    <div class="modal-header">
+      <h3>Edit Slide</h3>
+      <button id="slide-editor-close" type="button">×</button>
+    </div>
+    <div class="editor-body">
+      <div class="editor-preview">
+        <div class="editor-canvas" id="editor-preview">
+          <div class="editor-overlay">
+            <p id="editor-preview-text"></p>
+          </div>
+        </div>
+      </div>
+      <div class="editor-controls">
+        <div class="editor-toolbar">
+          <button type="button" class="toolbar-btn" data-style="bold" id="toolbar-bold">B</button>
+          <button type="button" class="toolbar-btn" data-style="underline" id="toolbar-underline">U</button>
+        </div>
+        <label class="field stacked">
+          <span>Slide text</span>
+          <textarea id="slide-editor-text" rows="6" placeholder="Type your hook…"></textarea>
+        </label>
+        <div class="editor-grid">
+          <label>
+            Text color
+            <input type="color" id="slide-editor-text-color" value="#ffffff">
+          </label>
+          <label>
+            Outline color
+            <input type="color" id="slide-editor-outline-color" value="#000000">
+          </label>
+        </div>
+        <div class="editor-search">
+          <form id="editor-image-search-form">
+            <input type="text" id="editor-image-query" placeholder="Search stock images (lab, protest…)" required>
+            <button type="submit">Search</button>
+          </form>
+          <div id="editor-image-results" class="image-grid"></div>
+        </div>
+
+        <div class="editor-actions">
+          <button type="button" class="ghost-btn" id="editor-cancel">Cancel</button>
+          <button type="button" class="danger-btn" id="editor-delete">Delete Slide</button>
+          <button type="button" class="primary-btn" id="editor-save">Save Slide</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<template id="slide-template">
+  <article class="slide">
+    <div class="slide-visual">
+      <div class="effect-overlay"></div>
+      <div class="slide-actions-menu">
+        <button class="edit-slide" type="button">Edit</button>
+      </div>
+      <div class="slide-overlay">
+        <p class="slide-copy"></p>
+      </div>
+    </div>
+    <div class="controls trio">
+      <label>
+        Effect
+        <select class="effect-select">
+          <option value="none">None</option>
+          <option value="zoom-in">Zoom In</option>
+          <option value="zoom-out">Zoom Out</option>
+          <option value="pan-left">Pan Left</option>
+          <option value="pan-right">Pan Right</option>
+        </select>
+      </label>
+      <label>
+        Transition
+        <select class="transition-select">
+          <option value="fade">Fade</option>
+          <option value="slide">Slide</option>
+          <option value="scale">Scale</option>
+        </select>
+      </label>
+    </div>
+  </article>
+</template>

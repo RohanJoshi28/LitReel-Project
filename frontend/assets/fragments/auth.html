@@ -1,0 +1,44 @@
+<div id="auth-shell" class="auth-shell">
+  <div class="auth-card">
+    <div class="brand">
+      <span class="dot"></span>
+      <div>
+        <h1>LitReel</h1>
+        <p>Secure your book reels</p>
+      </div>
+    </div>
+    <div class="auth-copy">
+      <h2>Sign in to protect your uploads</h2>
+      <p>Every account has isolated uploads, concepts, and slides.</p>
+    </div>
+    <div id="auth-message" class="auth-message"></div>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" data-auth-mode="login">Log In</button>
+      <button type="button" class="auth-tab" data-auth-mode="signup">Create Account</button>
+    </div>
+    <div class="auth-forms">
+      <form id="login-form" class="auth-form" autocomplete="on">
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" name="password" placeholder="Minimum 8 characters" minlength="8" required autocomplete="current-password">
+        </label>
+        <button type="submit" class="primary-btn full">Log In</button>
+      </form>
+      <form id="signup-form" class="auth-form hidden" autocomplete="on">
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="founder@studio.com" required autocomplete="email">
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" name="password" placeholder="Create a strong password" minlength="8" required autocomplete="new-password">
+        </label>
+        <button type="submit" class="primary-btn full">Create Account</button>
+      </form>
+    </div>
+  </div>
+</div>

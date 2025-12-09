@@ -1,0 +1,81 @@
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1f1b33, #090812 60%);
+  color: #f1f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.error-card {
+  background: rgba(12, 11, 27, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 540px;
+  width: 100%;
+  box-shadow: 0 20px 45px rgba(1, 0, 15, 0.6);
+  text-align: center;
+}
+
+.error-card h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.error-card p {
+  margin: 0.6rem 0;
+  line-height: 1.5;
+  color: rgba(248, 248, 255, 0.85);
+}
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.actions a {
+  text-decoration: none;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.7rem 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  font-weight: 600;
+}
+
+.actions a.primary {
+  background: linear-gradient(120deg, #675bff, #8a7bff);
+  border: none;
+}
+
+.actions a:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.meta {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .error-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .error-card h1 {
+    font-size: 1.8rem;
+  }
+}
