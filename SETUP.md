@@ -6,11 +6,11 @@
 2. **Sign up with your own account or use the QA (testing) account:** `testuser@litreel.app` / `TestDrive123!` allows for easy access to a testing account you can use without creating your own account.
 Alternatively, you can create your own account using an email and password (feel free to make the password a placeholder like "123456"). 
 
-### Try the Emotional Arousal Model
+### Try the Emotional Arousal Model (component of creation studio)
 The fine-tuned MiniLM-L6 transformer that powers random slice ranking during RAG is deployed as a standalone Hugging Face Space at [https://huggingface.co/spaces/RohanJoshi28/narrative-arousal-regressor](https://huggingface.co/spaces/RohanJoshi28/narrative-arousal-regressor) that **you can test!** (might take a sec to boot) In the actual project, this model scores ~30 random book chunks and selects the most emotionally charged passages to send to Gemini for micro-lesson/viral reel generation. You can test it independently—paste any narrative text and see its predicted arousal score (Gaussian-distributed, centered around 0, where higher values indicate more emotionally intense passages).
 
-**Example inputs to try:**
-- **Low arousal (expect negative score):** *"The sun rose slowly over the quiet lake. Birds chirped softly in the distance, and the water was still, reflecting the pale morning sky."* — This calm, descriptive passage should produce a negative value.
+**Example inputs to try for transformer model:**
+- **Low arousal (expect negative score):** *"The sun rose slowly over the quiet lake. Birds chirped softly in the distance, and the water was still, reflecting the pale morning sky."* — This calm, descriptive passage should produce a negative normalized value.
 - **High arousal (expect positive score):** *"Smoke and fire roared around them, the building collapsing with a deafening crash. She reached out, screaming for help, her breath ragged and wild."* — This intense, chaotic passage should produce a positive value.
 
 ---

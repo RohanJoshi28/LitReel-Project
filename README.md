@@ -43,6 +43,22 @@ Litreel supports two distinct RAG modes for generating new micro-lessons in the 
 - **Database log backup:** When Supabase credentials are configured, warnings and errors are also saved to the `app_logs` table for long-term storage.
 - **Custom 404 page:** When users visit a path that doesn't exist, they see a friendly error page instead of a generic browser error.
 
+## Evaluation
+- Qualitatively, the micro-lessons that Gemini come up with are engaging and relevant to the book. Without prompt engineering, the lessons were significantly less engaging. Example micro-lesson from the book "Sapiens": 
+
+[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/example_slideshow.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/example_slideshow.png)
+
+- Qualitatively, the transformer that predicts emotional arousal to rank book passages also works well. Here are outputs for the following sentences with varying emotional intensity:
+
+| Sentence | Predicted Arousal (Normalized) | Predicted Arousal (Original Scale) |
+|----------|-------------------------------|-----------------------------------|
+| The train arrived at its scheduled time, and passengers stepped onto the platform. | -2.15 | 0.18 |
+| She realized she had misplaced her notebook, which held an important reminder for tomorrow's meeting. | -1.30 | 0.58 |
+| The phone rang with an unfamiliar number, and her stomach dropped before she slowly picked it up. | 0.13 | 0.53 |
+| She watched her father cry for the first time, realizing he was breaking in a way she couldn't fix. | 0.70 | 0.55 |
+
+As you can see, the normalized predicted arousal keeps getting more positive as the sentence becomes more emotionally charged. The original scale values range from 0 to 1, where higher values indicate greater emotional intensity.
+
 ## Documentation
 - `SETUP.md` — detailed install, environment, Supabase, and worker instructions.
 - `ATTRIBUTION.md` — references for models, datasets, and third-party docs used in the stack.
