@@ -17,6 +17,11 @@ Litreel transforms long-form nonfiction books into educational short reels for m
 
 ## Technical Overview
 
+### Code Structure
+- `litreel/` — Flask app codebase, including routes, helper functions, and background processes
+- `frontend/` — JavaScript and HTML client-side code 
+- `ML_training/` — Jupyter notebooks & data for training the transformer model on emotional arousal prediction
+
 ### Brief overview of the Architecture
 - **Flask backend + HTML/javascript frontend:** A single Flask process serves `/` (landing) and `/studio`, exposes REST APIs under `/api`, and relies on Flask-Login for sessions.
 - **Document ingestion → Gemini micro-lesson extraction:** Uploads (PDF, DOCX, EPUB) are parsed, chunked, and summarized by Gemini models to produce micro-lesson broken down into individual slides. LemonFox API adds text to speech to narrate each slide when the user clicks the "Render" button. 
