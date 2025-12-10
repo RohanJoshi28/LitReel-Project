@@ -11,7 +11,7 @@ Litreel transforms long-form nonfiction books into educational short reels for m
 ## Quick Start
 1. **Open the creation studio:** My website is hosted at https://litreel-9f4b585284df.herokuapp.com/ 
 2. **Sign up with your own account or use the QA (testing) account:** `testuser@litreel.app` / `TestDrive123!` allows for easy access to a testing account you can use without creating your own account.
-3. **Do you need to run locally?** Follow the detailed steps in `SETUP.md` to provision dependencies and environment variables.
+3. **Do you need to run locally?** Follow the detailed steps in `docs/SETUP.md` to provision dependencies and environment variables.
 
 **Try the Emotional Arousal Model:** The fine-tuned MiniLM-L6 transformer that powers emotional arousal ranking during RAG is deployed as a standalone Hugging Face Space at [https://huggingface.co/spaces/RohanJoshi28/narrative-arousal-regressor](https://huggingface.co/spaces/RohanJoshi28/narrative-arousal-regressor) that **you can test!** (might take a second to boot up cpu) In the actual project, this model scores ~30 random book chunks and selects the most emotionally charged passages to send to Gemini for micro-lesson/viral reel generation. You can test it independently—paste any narrative text and see its predicted arousal score (Gaussian-distributed, centered around 0, where higher values indicate more emotionally intense passages).
 
@@ -22,6 +22,8 @@ Litreel transforms long-form nonfiction books into educational short reels for m
 - `frontend/` — JavaScript and HTML client-side code 
 - `ML_training/` — Jupyter notebooks & data for training the transformer model on emotional arousal prediction
 - `tests/` — unit and integration tests so that deploying code is bug-free and more efficient
+-  `bin/` — shell script for running application in prediction, referenced in Heroku procfile
+- `docs/` — documentation including setup, attribution, and README.md images
 
 ### Brief overview of the Architecture
 - **Flask backend + HTML/javascript frontend:** A single Flask process serves `/` (landing) and `/studio`, exposes REST APIs under `/api`, and relies on Flask-Login for sessions.
@@ -29,7 +31,7 @@ Litreel transforms long-form nonfiction books into educational short reels for m
 - **Retrieval-Augmented Generation:** Supabase (or SQLite when `DATABASE_PROFILE=local`) stores embedded `book`/`book_chunk` rows in a vector store. When the user utilizes the concept lab (RAG feature), Gemini prompts pull context through RAG lookups before generating viral micro-lessons based on user-driven direction or existing micro-lessons that users want to remix. 
 - **Background jobs + rendering:**  Because Heroku enforces short request timeouts, long-running Gemini and RAG operations are offloaded to Redis-backed RQ queues. `worker.py` handles slide generation, Concept Lab (RAG) calls, and MP4 rendering, uploading finished reels to Supabase Storage in prod with signed download URLs.
 
-[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/system_components.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/system_components.png)
+[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/docs/system_components.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/docs/system_components.png)
 
 ### Retrieval & Emotion Ranking
 Litreel supports two distinct RAG modes for generating new micro-lessons in the Micro-Lesson Lab:
@@ -38,7 +40,7 @@ Litreel supports two distinct RAG modes for generating new micro-lessons in the 
 
 - ** Emotionally Charged Mode (Emotion-Ranked):** When users select emotionally charged mode, the system samples ~30 random chunks from the book and scores each one using a fine-tuned MiniLM-L6 transformer trained on narrative emotional arousal data (see [`ML_training/`](ML_training/) jupyter notebooks; deployed as a huggingface API). Only the top-scoring passages—those with the highest predicted emotional intensity—are sent to Gemini, ensuring new micro-lessons emerge from the book's most emotionally charged moments rather than arbitrary text.
 
-[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/TechnicalArchitecture.jpeg)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/TechnicalArchitecture.jpeg)
+[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/docs/TechnicalArchitecture.jpeg)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/docs/TechnicalArchitecture.jpeg)
 
 ### Supabase Schema Explanation
 - **`users`:** Stores registered accounts (email + hashed password) for authentication via Flask-Login.
@@ -61,7 +63,7 @@ A transformer model was trained to predict emotional arousal from literature dat
 
 - Qualitatively, the micro-lessons that Gemini come up with are engaging and relevant to the book. Without prompt engineering, the lessons were significantly less engaging. Example micro-lesson from the book "Sapiens": 
 
-[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/example_slideshow.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/example_slideshow.png)
+[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/docs/example_slideshow.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/docs/example_slideshow.png)
 
 - Qualitatively, the transformer that predicts emotional arousal to rank book passages also works well. Here are outputs for the following sentences with varying emotional intensity:
 
@@ -76,13 +78,13 @@ As you can see, the normalized predicted arousal keeps getting more positive as 
 
 I also quantitatively evaluated the transformer's performance on predicting emotional arousal after training for 5 epochs and optimized hyperparameters. I learned that the Adam optimizer does significantly better than SGD here, and a dropout of 0.05 is a great choice. Using a transformer language model also significantly outperformed TF-IDF baseline - the MSE difference might seem like a small difference but it's actually quite significant given the output scale. I got a spearman of ~83% on the test dataset (measures how well the order (ranking) of the predictions matches the order of the true labels), which is considered pretty good. Here are the results of hyperparameter optimization on validation: 
 
-[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/quantitative_transformer_evaluation.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/quantitative_transformer_evaluation.png)
+[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/docs/quantitative_transformer_evaluation.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/docs/quantitative_transformer_evaluation.png)
 
 I then trained with the model with a dropout of 0.05 & the Adam optimizer (I noticed that L1/L2 regularization was pretty terrible on this problem) for 15 epochs with early stopping [ML_training/EmotionalArousalTransformer.ipynb](ML_training/EmotionalArousalTransformer.ipynb) and got a Spearman correlation coefficient of ~0.85 on the test set, which is considered close to state of the art for this type of task.
 
 ## Documentation & Contribution
-- `SETUP.md` — detailed install, environment, Supabase, and worker instructions.
-- `ATTRIBUTION.md` — references for models, datasets, and third-party docs used in the stack.
+- `docs/SETUP.md` — detailed install, environment, Supabase, and worker instructions.
+- `docs/ATTRIBUTION.md` — references for models, datasets, and third-party docs used in the stack.
 
 ### Contribution
 I completed this project myself from scratch. 
