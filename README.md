@@ -21,6 +21,7 @@ Litreel transforms long-form nonfiction books into educational short reels for m
 - `litreel/` — Flask app codebase, including routes, helper functions, and background processes
 - `frontend/` — JavaScript and HTML client-side code 
 - `ML_training/` — Jupyter notebooks & data for training the transformer model on emotional arousal prediction
+- `tests/` — unit and integration tests so that deploying code is bug-free and more efficient
 
 ### Brief overview of the Architecture
 - **Flask backend + HTML/javascript frontend:** A single Flask process serves `/` (landing) and `/studio`, exposes REST APIs under `/api`, and relies on Flask-Login for sessions.
