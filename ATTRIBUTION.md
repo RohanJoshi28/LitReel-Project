@@ -9,3 +9,4 @@
 - **Deploying Flask app to Heroku** — tutorial for deploying a Flask application to Heroku (https://realpython.com/flask-by-example-part-1-project-setup/).
 - **Supabase database documentation** - https://supabase.com/docs/guides/database/overview
 - **Prompt engineering guide** - https://learnprompting.org/docs/introduction
+- **Google Gemini 3** - Used this model to help me create a visualization of the architecture

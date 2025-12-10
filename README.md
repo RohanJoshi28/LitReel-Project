@@ -18,6 +18,8 @@ Litreel transforms long-form nonfiction books into educational short reels for m
 - **Retrieval-Augmented Generation:** Supabase (or SQLite when `DATABASE_PROFILE=local`) stores embedded `book`/`book_chunk` rows in a vector store. When the user utilizes the concept lab (RAG feature), Gemini prompts pull context through RAG lookups before generating viral micro-lessons based on user-driven direction or existing micro-lessons that users want to remix. 
 - **Background jobs + rendering:**  Because Heroku enforces short request timeouts, long-running Gemini and RAG operations are offloaded to Redis-backed RQ queues. `worker.py` handles slide generation, Concept Lab (RAG) calls, and MP4 rendering, uploading finished reels to Supabase Storage in prod with signed download URLs.
 
+[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/system_components.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/system_components.png)
+
 ### Retrieval & Emotion Ranking
 Litreel supports two distinct RAG modes for generating new micro-lessons in the Micro-Lesson Lab:
 
@@ -44,6 +46,8 @@ Litreel supports two distinct RAG modes for generating new micro-lessons in the 
 - **Error Handling:** When users visit a path that doesn't exist, they see a friendly error page instead of a generic browser error. Many features like the upload book feature, RAG feature, and text to speech feature are wrapped in try/catch blocks that display user-friendly error messages. Additionally, I added a rate limit of one book getting processed at a time. 
 
 ## Evaluation
+A transformer model was trained to predict emotional arousal from literature datasets like "Cr4-NarrEmote" and "Automatic Emotion Modelling in Written Stories" in order to assist in selecting emotionally charged passages for compelling short-form content. The Cr4-NarrEmote dataset contains roughly 1.1 million tokens (attached in this repository in [ML_training/data/cr4](ML_training/data/cr4)) while the Automatic Emotion Modelling in Written Stories dataset contains roughly 250k tokens (attached in this repository in [ML_training/data/alm](ML_training/data/alm)).
+
 - Qualitatively, the micro-lessons that Gemini come up with are engaging and relevant to the book. Without prompt engineering, the lessons were significantly less engaging. Example micro-lesson from the book "Sapiens": 
 
 [![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/example_slideshow.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/example_slideshow.png)
