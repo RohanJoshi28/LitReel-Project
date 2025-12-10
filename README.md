@@ -24,6 +24,7 @@ Litreel transforms long-form nonfiction books into educational short reels for m
 - `tests/` — unit and integration tests so that deploying code is bug-free and more efficient
 -  `bin/` — shell script for running application in prediction, referenced in Heroku procfile
 - `docs/` — documentation including setup, attribution, and README.md images
+- `worker.py` Heroku background worker that handles long running background jobs
 
 ### Brief overview of the Architecture
 - **Flask backend + HTML/javascript frontend:** A single Flask process serves `/` (landing) and `/studio`, exposes REST APIs under `/api`, and relies on Flask-Login for sessions.
