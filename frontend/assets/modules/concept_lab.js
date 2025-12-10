@@ -101,7 +101,7 @@ export function initConceptLab(refs, api, projects) {
     const project = getActiveProject();
     refs.ragConceptSelect.innerHTML = `
       <option value="__none__">No scene – use my direction only</option>
-      <option value="__random__">Select random slice of book</option>
+      <option value="__random__">Select emotionally charged passage from book</option>
     `;
     if (!project) {
       refs.ragConceptSelect.disabled = true;
