@@ -41,7 +41,7 @@ Litreel supports two distinct RAG modes for generating new micro-lessons in the 
 - **Structured JSON logs:** Logs are written in JSON format with useful context (route, user, response time, etc.) and saved to `instance/logs/litreel.log`.
 - **Log verbosity levels:** Use `LOG_VERBOSITY` to control how much gets logged—`none` for silence, `essential` for warnings/errors only, or `verbose` for full debugging output.
 - **Database log backup:** When Supabase credentials are configured, warnings and errors are also saved to the `app_logs` table for long-term storage.
-- **Custom 404 page:** When users visit a path that doesn't exist, they see a friendly error page instead of a generic browser error.
+- **Error Handling:** When users visit a path that doesn't exist, they see a friendly error page instead of a generic browser error. Many features like the upload book feature, RAG feature, and text to speech feature are wrapped in try/catch blocks that display user-friendly error messages. Additionally, I added a rate limit of one book getting processed at a time. 
 
 ## Evaluation
 - Qualitatively, the micro-lessons that Gemini come up with are engaging and relevant to the book. Without prompt engineering, the lessons were significantly less engaging. Example micro-lesson from the book "Sapiens": 
@@ -59,6 +59,15 @@ Litreel supports two distinct RAG modes for generating new micro-lessons in the 
 
 As you can see, the normalized predicted arousal keeps getting more positive as the sentence becomes more emotionally charged. The original scale values range from 0 to 1, where higher values indicate greater emotional intensity.
 
-## Documentation
+I also quantitatively evaluated the transformer's performance on predicting emotional arousal after training for 5 epochs and optimized hyperparameters. I learned that the Adam optimizer does significantly better than SGD here, and a dropout of 0.05 is a great choice. Using a transformer language model also significantly outperformed TF-IDF baseline - the MSE difference might seem like a small difference but it's actually quite significant given the output scale. I got a spearman of ~83% on the test dataset (measures how well the order (ranking) of the predictions matches the order of the true labels), which is considered pretty good. Here are the results of hyperparameter optimization on validation: 
+
+[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/quantitative_transformer_evaluation.png)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/quantitative_transformer_evaluation.png)
+
+I then trained with the model with a dropout of 0.05 & the Adam optimizer (I noticed that L1/L2 regularization was pretty terrible on this problem) for 15 epochs with early stopping [ML_training/EmotionalArousalTransformer.ipynb](ML_training/EmotionalArousalTransformer.ipynb) and got a Spearman correlation coefficient of ~0.85 on the test set, which is considered close to state of the art for this type of task.
+
+## Documentation & Contribution
 - `SETUP.md` — detailed install, environment, Supabase, and worker instructions.
 - `ATTRIBUTION.md` — references for models, datasets, and third-party docs used in the stack.
+
+### Contribution
+I completed this project myself from scratch. 
