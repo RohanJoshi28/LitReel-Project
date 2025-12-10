@@ -25,7 +25,7 @@ Litreel supports two distinct RAG modes for generating new micro-lessons in the 
 
 - **Random Slice Mode (Emotion-Ranked):** When users select random slice mode, the system samples ~30 random chunks from the book and scores each one using a fine-tuned MiniLM-L6 transformer trained on narrative emotional arousal data (see [`ML_training/`](ML_training/) jupyter notebooks; deployed as a huggingface API). Only the top-scoring passages—those with the highest predicted emotional intensity—are sent to Gemini, ensuring new micro-lessons emerge from the book's most emotionally charged moments rather than arbitrary text.
 
-[![image](https://github.com/RohanJoshi28/LitReel/blob/main/TechnicalArchitecture.jpeg)](https://github.com/RohanJoshi28/LitReel/blob/main/TechnicalArchitecture.jpeg)
+[![image](https://github.com/RohanJoshi28/LitReel-Project/blob/main/TechnicalArchitecture.jpeg)](https://github.com/RohanJoshi28/LitReel-Project/blob/main/TechnicalArchitecture.jpeg)
 
 ### Supabase Schema Explanation
 - **`users`:** Stores registered accounts (email + hashed password) for authentication via Flask-Login.
